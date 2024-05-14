@@ -27,6 +27,15 @@ class Cat(models.Model):
         User, related_name='cats', on_delete=models.CASCADE)
     achievements = models.ManyToManyField(Achievement, through='AchievementCat')
 
+    # Это то же самое, что и validators = ... в serializers.CatSerializer
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'owner'],
+                name='unique_name_owner'
+            )
+        ]
+
     def __str__(self):
         return self.name
 
